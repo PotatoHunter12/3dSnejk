@@ -1,31 +1,3 @@
-// import { Renderer } from './renderer.js';
-// import { Application } from '../Engine/Application.js';
-
-// var scene = new THREE.Scene();
-
-// const renderer = new Renderer();
-// // renderer.setSize( window.innerWidth, window.innerHeight );
-// // document.body.appendChild( renderer.domElement );
-
-// var loader = new THREE.GLTFLoader();
-
-// loader.load('Assets/3d models/snek_head.gltf', function (gltf) {
-
-// 	scene.add(gltf.scene);
-	
-// 	const model = gltf.scene.getObjectByName("Cube002");
-// 	gltf.scene.traverse((object) => {
-// 		// Do something with each object, such as logging its name
-// 		console.log(object.name);
-// 	});
-	
-// 	scene.traverse((object) => {
-// 		// Do something with each object, such as logging its name
-// 		console.log(object.name);
-// 	});
-// 	renderer.render(scene, gltf.cameras[0]);
-
-//});
 import { Application } from '../Engine/Application.js';
 
 import { GLTFLoader } from '../GLTF/GLTFLoader.js';
@@ -39,6 +11,7 @@ class App extends Application {
 
         this.scene = await this.loader.loadScene(this.loader.defaultScene);
         this.camera = await this.loader.loadNode('Camera');
+        this.camera.camera = this.camera.children[0].camera;
 
         if (!this.scene || !this.camera) {
             throw new Error('Scene or Camera not present in glTF');
