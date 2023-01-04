@@ -7,7 +7,7 @@ class App extends Application {
 
     async start() {
         this.loader = new GLTFLoader();
-        await this.loader.load('../Assets/3d models/GLTFs/snek_head.gltf');
+        await this.loader.load('../Assets/3d models/snake/head/snek_head_texture.gltf');
 
         this.scene = await this.loader.loadScene(this.loader.defaultScene);
         this.camera = await this.loader.loadNode('Camera');
