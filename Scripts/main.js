@@ -1,7 +1,7 @@
 import { Application } from '../Engine/Application.js';
 
-import { GLTFLoader } from '../GLTF/GLTFLoader.js';
-import { Renderer } from './renderer.js';
+import { GLTFLoader } from './GLTFLoader.js';
+import { Renderer } from './Renderer.js';
 
 class App extends Application {
 
@@ -11,7 +11,6 @@ class App extends Application {
 
         this.scene = await this.loader.loadScene(this.loader.defaultScene);
         this.camera = await this.loader.loadNode('Camera');
-        this.camera.camera = this.camera.children[0].camera;
 
         if (!this.scene || !this.camera) {
             throw new Error('Scene or Camera not present in glTF');
@@ -40,4 +39,3 @@ const canvas = document.querySelector('canvas');
 const app = new App(canvas);
 await app.init();
 document.querySelector('.loader-container').remove();
-
