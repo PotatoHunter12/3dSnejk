@@ -1,0 +1,184 @@
+{
+    "asset" : {
+        "generator" : "Khronos glTF Blender I/O v1.6.16",
+        "version" : "2.0"
+    },
+    "scene" : 0,
+    "scenes" : [
+        {
+            "name" : "Scene",
+            "nodes" : [
+                0,
+                1,
+                2
+            ]
+        }
+    ],
+    "nodes" : [
+        {
+            "name" : "Light",
+            "rotation" : [
+                0.16907575726509094,
+                0.7558803558349609,
+                -0.27217137813568115,
+                0.570947527885437
+            ],
+            "translation" : [
+                4.076245307922363,
+                5.903861999511719,
+                -1.0054539442062378
+            ]
+        },
+        {
+            "mesh" : 0,
+            "name" : "Cube",
+            "rotation" : [
+                0,
+                -0.2450016438961029,
+                0,
+                0.9695226550102234
+            ],
+            "scale" : [
+                0.8267908096313477,
+                0.8267906904220581,
+                0.8267908096313477
+            ],
+            "translation" : [
+                1.661043643951416,
+                0,
+                -0.2757757902145386
+            ]
+        },
+        {
+            "name" : "Camera",
+            "rotation" : [
+                0,
+                -0.7666050791740417,
+                0.6421190500259399,
+                -2.8067917767771178e-08
+            ],
+            "scale" : [
+                3.699050188064575,
+                3.699050188064575,
+                3.699050188064575
+            ],
+            "translation" : [
+                0,
+                13.869999885559082,
+                -43.93000030517578
+            ]
+        }
+    ],
+    "materials" : [
+        {
+            "doubleSided" : true,
+            "name" : "Material",
+            "pbrMetallicRoughness" : {
+                "baseColorTexture" : {
+                    "index" : 0
+                },
+                "metallicFactor" : 0,
+                "roughnessFactor" : 0.5
+            }
+        }
+    ],
+    "meshes" : [
+        {
+            "name" : "Cube.001",
+            "primitives" : [
+                {
+                    "attributes" : {
+                        "POSITION" : 0,
+                        "NORMAL" : 1,
+                        "TEXCOORD_0" : 2
+                    },
+                    "indices" : 3,
+                    "material" : 0
+                }
+            ]
+        }
+    ],
+    "textures" : [
+        {
+            "sampler" : 0,
+            "source" : 0
+        }
+    ],
+    "images" : [
+        {
+            "mimeType" : "image/png",
+            "name" : "snek_pattern4",
+            "uri" : "snek_pattern4.png"
+        }
+    ],
+    "accessors" : [
+        {
+            "bufferView" : 0,
+            "componentType" : 5126,
+            "count" : 3808,
+            "max" : [
+                3.417954921722412,
+                2.750000476837158,
+                2.7340424060821533
+            ],
+            "min" : [
+                -8.854720115661621,
+                -2.750000476837158,
+                -5.139925003051758
+            ],
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 1,
+            "componentType" : 5126,
+            "count" : 3808,
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 2,
+            "componentType" : 5126,
+            "count" : 3808,
+            "type" : "VEC2"
+        },
+        {
+            "bufferView" : 3,
+            "componentType" : 5123,
+            "count" : 5748,
+            "type" : "SCALAR"
+        }
+    ],
+    "bufferViews" : [
+        {
+            "buffer" : 0,
+            "byteLength" : 45696,
+            "byteOffset" : 0
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 45696,
+            "byteOffset" : 45696
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 30464,
+            "byteOffset" : 91392
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 11496,
+            "byteOffset" : 121856
+        }
+    ],
+    "samplers" : [
+        {
+            "magFilter" : 9729,
+            "minFilter" : 9987
+        }
+    ],
+    "buffers" : [
+        {
+            "byteLength" : 133352,
+            "uri" : "snake_preopognjen_texture.bin"
+        }
+    ]
+}
