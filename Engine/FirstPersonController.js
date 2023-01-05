@@ -13,8 +13,6 @@ export class FirstPersonController {
 
         this.velocity = [0, 0, 0];
         this.acceleration = 20;
-        this.maxSpeed = 3;
-        this.decay = 0.9;
         this.pointerSensitivity = 0.002;
 
         this.initHandlers();
@@ -48,39 +46,22 @@ export class FirstPersonController {
         const forward = [-sin, 0, -cos];
         const right = [cos, 0, -sin];
 
-        // Map user input to the acceleration vector.
-        const acc = vec3.create();
+        // Map user input.
         if (this.keys['KeyW']) {
-            vec3.add(acc, acc, forward);
+            //smer gor
         }
         if (this.keys['KeyS']) {
-            vec3.sub(acc, acc, forward);
-        }
-        if (this.keys['KeyD']) {
-            vec3.add(acc, acc, right);
+            //smer dol
         }
         if (this.keys['KeyA']) {
-            vec3.sub(acc, acc, right);
+            //smer levo
         }
-
-        // Update velocity based on acceleration.
-        vec3.scaleAndAdd(this.velocity, this.velocity, acc, dt * this.acceleration);
-
-        // If there is no user input, apply decay.
-        if (!this.keys['KeyW'] &&
-            !this.keys['KeyS'] &&
-            !this.keys['KeyD'] &&
-            !this.keys['KeyA'])
-        {
-            const decay = Math.exp(dt * Math.log(1 - this.decay));
-            vec3.scale(this.velocity, this.velocity, decay);
+        if (this.keys['KeyD']) {
+            //smer desno
         }
-
-        // Limit speed to prevent accelerating to infinity and beyond.
-        const speed = vec3.length(this.velocity);
-        if (speed > this.maxSpeed) {
-            vec3.scale(this.velocity, this.velocity, this.maxSpeed / speed);
-        }
+        
+        // Kle morm nekak obrnt glavo pa kamero
+        vec3.scaleAndAdd(this.velocity, this.velocity, d, dt * this.acceleration);
 
         // Update translation based on velocity.
         this.node.translation = vec3.scaleAndAdd(vec3.create(),

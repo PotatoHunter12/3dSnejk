@@ -6,11 +6,20 @@ import { Renderer } from './Renderer.js';
 class App extends Application {
 
     async start() {
-        this.loader = new GLTFLoader();
-        await this.loader.load('../Assets/3d models/snake/head/snek_head_texture.gltf');
+        this.loaderMap = new GLTFLoader();
+        this.loaderSnake = new GLTFLoader();
 
-        this.scene = await this.loader.loadScene(this.loader.defaultScene);
-        this.camera = await this.loader.loadNode('Camera');
+        this.renderer = new Renderer(this.gl);
+
+        await this.loaderSnake.load('../Assets/3d models/snake/head/snake_head2.gltf');
+        await this.loaderMap.load('../Assets/3d models/mapa/mapa.gltf');
+        await this.loaderSnake.loadScene(this.loaderSnake.defaultScene);
+
+        this.snek = await this.loaderSnake.loadNode("Cube.002");
+        this.scene = await this.loaderMap.loadScene(this.loaderMap.defaultScene);
+
+        this.camera = await this.loaderSnake.loadNode('Camera');
+        this.scene.addNode(this.snek);
 
         if (!this.scene || !this.camera) {
             throw new Error('Scene or Camera not present in glTF');
@@ -20,10 +29,11 @@ class App extends Application {
             throw new Error('Camera node does not contain a camera reference');
         }
 
-        this.renderer = new Renderer(this.gl);
         this.renderer.prepareScene(this.scene);
     }
+    update() {
 
+    }
     render() {
         this.renderer.render(this.scene, this.camera);
     }
@@ -39,3 +49,5 @@ const canvas = document.querySelector('canvas');
 const app = new App(canvas);
 await app.init();
 document.querySelector('.loader-container').remove();
+
+

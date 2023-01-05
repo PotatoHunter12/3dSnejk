@@ -20,24 +20,26 @@ export class GLTFLoader {
     constructor() {
         this.gltf = null;
         this.gltfUrl = null;
+        this.dirname = null;
 
         this.cache = new Map();
     }
 
     fetchJson(url) {
-        return fetch(url)
-            .then(response => response.json());
+        return fetch(url).then(response => response.json());
     }
 
     fetchBuffer(url) {
-        return fetch(url)
-            .then(response => response.arrayBuffer());
+        return fetch(url).then(response => response.arrayBuffer());
     }
 
     fetchImage(url) {
-        return fetch(url)
-            .then(response => response.blob())
-            .then(blob => createImageBitmap(blob));
+        return new Promise((resolve, reject) => {
+            const image = new Image();
+            image.addEventListener('load', e => resolve(image));
+            image.addEventListener('error', reject);
+            image.src = url;
+        });
     }
 
     findByNameOrIndex(set, nameOrIndex) {
@@ -51,14 +53,11 @@ export class GLTFLoader {
     async load(url) {
         this.gltfUrl = new URL(url, window.location);
         this.gltf = await this.fetchJson(url);
-        this.defaultScene = this.gltf.scene ?? 0;
+        this.defaultScene = this.gltf.scene || 0;
     }
 
     async loadImage(nameOrIndex) {
         const gltfSpec = this.findByNameOrIndex(this.gltf.images, nameOrIndex);
-        if (!gltfSpec) {
-            return null;
-        }
         if (this.cache.has(gltfSpec)) {
             return this.cache.get(gltfSpec);
         }
@@ -70,8 +69,7 @@ export class GLTFLoader {
             return image;
         } else {
             const bufferView = await this.loadBufferView(gltfSpec.bufferView);
-            const dataView = new DataView(bufferView.buffer, bufferView.byteOffset, bufferView.byteLength);
-            const blob = new Blob([dataView], { type: gltfSpec.mimeType });
+            const blob = new Blob([bufferView], { type: gltfSpec.mimeType });
             const url = URL.createObjectURL(blob);
             const image = await this.fetchImage(url);
             URL.revokeObjectURL(url);
@@ -82,9 +80,6 @@ export class GLTFLoader {
 
     async loadBuffer(nameOrIndex) {
         const gltfSpec = this.findByNameOrIndex(this.gltf.buffers, nameOrIndex);
-        if (!gltfSpec) {
-            return null;
-        }
         if (this.cache.has(gltfSpec)) {
             return this.cache.get(gltfSpec);
         }
@@ -97,9 +92,6 @@ export class GLTFLoader {
 
     async loadBufferView(nameOrIndex) {
         const gltfSpec = this.findByNameOrIndex(this.gltf.bufferViews, nameOrIndex);
-        if (!gltfSpec) {
-            return null;
-        }
         if (this.cache.has(gltfSpec)) {
             return this.cache.get(gltfSpec);
         }
@@ -114,9 +106,6 @@ export class GLTFLoader {
 
     async loadAccessor(nameOrIndex) {
         const gltfSpec = this.findByNameOrIndex(this.gltf.accessors, nameOrIndex);
-        if (!gltfSpec) {
-            return null;
-        }
         if (this.cache.has(gltfSpec)) {
             return this.cache.get(gltfSpec);
         }
@@ -142,9 +131,6 @@ export class GLTFLoader {
 
     async loadSampler(nameOrIndex) {
         const gltfSpec = this.findByNameOrIndex(this.gltf.samplers, nameOrIndex);
-        if (!gltfSpec) {
-            return null;
-        }
         if (this.cache.has(gltfSpec)) {
             return this.cache.get(gltfSpec);
         }
@@ -161,9 +147,6 @@ export class GLTFLoader {
 
     async loadTexture(nameOrIndex) {
         const gltfSpec = this.findByNameOrIndex(this.gltf.textures, nameOrIndex);
-        if (!gltfSpec) {
-            return null;
-        }
         if (this.cache.has(gltfSpec)) {
             return this.cache.get(gltfSpec);
         }
@@ -183,9 +166,6 @@ export class GLTFLoader {
 
     async loadMaterial(nameOrIndex) {
         const gltfSpec = this.findByNameOrIndex(this.gltf.materials, nameOrIndex);
-        if (!gltfSpec) {
-            return null;
-        }
         if (this.cache.has(gltfSpec)) {
             return this.cache.get(gltfSpec);
         }
@@ -235,9 +215,6 @@ export class GLTFLoader {
 
     async loadMesh(nameOrIndex) {
         const gltfSpec = this.findByNameOrIndex(this.gltf.meshes, nameOrIndex);
-        if (!gltfSpec) {
-            return null;
-        }
         if (this.cache.has(gltfSpec)) {
             return this.cache.get(gltfSpec);
         }
@@ -267,9 +244,6 @@ export class GLTFLoader {
 
     async loadCamera(nameOrIndex) {
         const gltfSpec = this.findByNameOrIndex(this.gltf.cameras, nameOrIndex);
-        if (!gltfSpec) {
-            return null;
-        }
         if (this.cache.has(gltfSpec)) {
             return this.cache.get(gltfSpec);
         }
@@ -301,9 +275,6 @@ export class GLTFLoader {
 
     async loadNode(nameOrIndex) {
         const gltfSpec = this.findByNameOrIndex(this.gltf.nodes, nameOrIndex);
-        if (!gltfSpec) {
-            return null;
-        }
         if (this.cache.has(gltfSpec)) {
             return this.cache.get(gltfSpec);
         }
@@ -329,9 +300,6 @@ export class GLTFLoader {
 
     async loadScene(nameOrIndex) {
         const gltfSpec = this.findByNameOrIndex(this.gltf.scenes, nameOrIndex);
-        if (!gltfSpec) {
-            return null;
-        }
         if (this.cache.has(gltfSpec)) {
             return this.cache.get(gltfSpec);
         }
