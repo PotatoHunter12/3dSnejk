@@ -2,6 +2,7 @@ import { Application } from '../Engine/Application.js';
 
 import { GLTFLoader } from './GLTFLoader.js';
 import { Renderer } from './Renderer.js';
+import { FirstPersonController } from '../Engine/FirstPersonController.js';
 
 class App extends Application {
 
@@ -28,11 +29,11 @@ class App extends Application {
         if (!this.camera.camera) {
             throw new Error('Camera node does not contain a camera reference');
         }
-
         this.renderer.prepareScene(this.scene);
+        this.controller = new FirstPersonController(this.snek, canvas);
     }
-    update() {
-
+    update(dt) {
+        this.controller.update(dt);
     }
     render() {
         this.renderer.render(this.scene, this.camera);
