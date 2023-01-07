@@ -39,8 +39,10 @@ export class FirstPersonController {
     }
 
     update(dt) {
-        const delay = 300;
+        this.delay = 190;
         this.dt = dt;
+        this.rotationQ.push(this.node.rotation);
+
         // Update the snake's direction
         this.direction = vec3.scale(vec3.create(), this.forward, dt * 1000 * this.speed);
 
@@ -74,11 +76,11 @@ export class FirstPersonController {
         // Update the snake's transformation matrix
         this.node.translation = vec3.add(vec3.create(), this.node.translation, vec3.scale(vec3.create(), this.direction, dt));
         this.translationQ.push(this.node.translation);
-        if(this.translationQ.length > delay){
-            const t = this.translationQ[this.translationQ.length - delay];
-            t[2] += 43;
+        if(this.translationQ.length > this.delay){
+            const t = this.translationQ[this.translationQ.length - this.delay];
+            //t[2] +=43;
+            this.tail.translation = this.node.translation;
             this.tail.translation = t;
-            //this.tail.rotation = this.rotationQ[this.rotationQ.length - delay];
         }
     }
     async rotate(axis, k) {
@@ -100,11 +102,16 @@ export class FirstPersonController {
             let t = elapsedTime / duration;
             t = Math.min(1, t);
             this.node.rotation = quat.slerp(quat.create(), startRotation, endRotation, t);
-            this.rotationQ.push(this.node.rotation);
             await new Promise(resolve => requestAnimationFrame(resolve));
         }
         this.node.rotation = endRotation;
-        this.rotationQ.push(this.node.rotation);
+        if(this.rotationQ.length > this.delay){
+            const t = this.translationQ[this.translationQ.length - this.delay];
+            //t[2] +=43;
+            this.tail.translation = this.node.translation;
+            this.tail.rotation = this.rotationQ[this.rotationQ.length - this.delay];
+            this.tail.translation = t;
+        }
 
         // Stop rotation
         this.rotating = false;

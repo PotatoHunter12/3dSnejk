@@ -3,26 +3,32 @@ import { Application } from '../Engine/Application.js';
 import { GLTFLoader } from './GLTFLoader.js';
 import { Renderer } from './Renderer.js';
 import { FirstPersonController } from '../Engine/FirstPersonController.js';
-import { TailController } from '../Engine/TailController.js';
 
 class App extends Application {
 
     async start() {
         this.loaderMap = new GLTFLoader();
         this.loaderSnake = new GLTFLoader();
-        
         this.renderer = new Renderer(this.gl);
 
-        await this.loaderSnake.load('../Assets/3d models/snake/snake_whole.gltf');
         await this.loaderMap.load('../Assets/3d models/mapa/mapa.gltf');
+        this.scene = await this.loaderMap.loadScene(this.loaderMap.defaultScene);
 
+        await this.loaderSnake.load('../Assets/3d models/snake/gltf-ji/snake_head.gltf');
         await this.loaderSnake.loadScene(this.loaderSnake.defaultScene);
         this.snake = await this.loaderSnake.loadNode("Head");
-        this.tail = await this.loaderSnake.loadNode("Body");
-        this.body = await this.loaderSnake.loadNode("Tail");
         this.camera = await this.loaderMap.loadNode('Camera');
+        
+        await this.loaderSnake.load('../Assets/3d models/snake/gltf-ji/snek_body.gltf');
+        await this.loaderSnake.loadScene(this.loaderSnake.defaultScene);
+        this.body = await this.loaderSnake.loadNode("Body");
 
-        this.scene = await this.loaderMap.loadScene(this.loaderMap.defaultScene);
+        await this.loaderSnake.load('../Assets/3d models/snake/gltf-ji/snake_tail.gltf');
+        await this.loaderSnake.loadScene(this.loaderSnake.defaultScene);
+        this.tail = await this.loaderSnake.loadNode("Tail");
+        
+
+        
 
         this.scene.addNode(this.snake);
         //this.scene.addNode(this.body);

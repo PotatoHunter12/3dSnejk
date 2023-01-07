@@ -8,6 +8,7 @@
         {
             "name" : "Scene",
             "nodes" : [
+                0,
                 1,
                 2
             ]
@@ -15,63 +16,57 @@
     ],
     "nodes" : [
         {
-            "camera" : 0,
-            "name" : "Camera",
+            "name" : "Light",
             "rotation" : [
-                -0.7071067690849304,
-                0,
-                0,
-                0.7071067690849304
+                0.16907575726509094,
+                0.7558803558349609,
+                -0.27217137813568115,
+                0.570947527885437
+            ],
+            "translation" : [
+                -23.923755645751953,
+                5.903861999511719,
+                -1.0054539442062378
             ]
         },
         {
-            "children" : [
-                0
-            ],
-            "name" : "Camera.001",
+            "name" : "Camera",
             "rotation" : [
                 0,
-                -0.7666050791740417,
-                0.6421190500259399,
-                -2.8067917767771178e-08
+                0.7666049599647522,
+                -0.6421189904212952,
+                2.80679142150575e-08
             ],
             "scale" : [
-                5.699050188064575,
-                5.699050188064575,
-                5.699050188064575
+                3.699050188064575,
+                3.699049949645996,
+                3.699049949645996
             ],
             "translation" : [
                 0,
                 13.869999885559082,
-                -150.84000015258789
+                -25.84000015258789
             ]
         },
         {
             "mesh" : 0,
-            "name" : "Cube",
+            "name" : "Tail",
             "scale" : [
-                102.598201751708984,
-                102.598201751708984,
-                102.598201751708984
+                2.5463850498199463,
+                2.5463850498199463,
+                4.120125770568848
+            ],
+            "translation" : [
+                0,
+                0,
+                -3
             ]
-        }
-    ],
-    "cameras" : [
-        {
-            "name" : "Camera.001",
-            "perspective" : {
-                "aspectRatio" : 1.7777777777777777,
-                "yfov" : 0.937270173412135,
-                "zfar" : 100,
-                "znear" : 0.10000000149011612
-            },
-            "type" : "perspective"
         }
     ],
     "materials" : [
         {
             "doubleSided" : true,
-            "name" : "Material.002",
+            "name" : "Material",
             "pbrMetallicRoughness" : {
                 "baseColorTexture" : {
                     "index" : 0
@@ -105,67 +100,67 @@
     ],
     "images" : [
         {
-            "mimeType" : "image/jpeg",
-            "name" : "vesolje",
-            "uri" : "vesolje.jpg"
+            "mimeType" : "image/png",
+            "name" : "snek_pattern",
+            "uri" : "snek_pattern.png"
         }
     ],
     "accessors" : [
         {
             "bufferView" : 0,
             "componentType" : 5126,
-            "count" : 24,
+            "count" : 1296,
             "max" : [
-                1,
-                1,
-                1
+                0.9160648584365845,
+                0.9157580733299255,
+                -8.787434577941895
             ],
             "min" : [
-                -1,
-                -1,
-                -1
+                -0.9160647988319397,
+                -0.9163717031478882,
+                -11.304767608642578
             ],
             "type" : "VEC3"
         },
         {
             "bufferView" : 1,
             "componentType" : 5126,
-            "count" : 24,
+            "count" : 1296,
             "type" : "VEC3"
         },
         {
             "bufferView" : 2,
             "componentType" : 5126,
-            "count" : 24,
+            "count" : 1296,
             "type" : "VEC2"
         },
         {
             "bufferView" : 3,
             "componentType" : 5123,
-            "count" : 36,
+            "count" : 1962,
             "type" : "SCALAR"
         }
     ],
     "bufferViews" : [
         {
             "buffer" : 0,
-            "byteLength" : 288,
+            "byteLength" : 15552,
             "byteOffset" : 0
         },
         {
             "buffer" : 0,
-            "byteLength" : 288,
-            "byteOffset" : 288
+            "byteLength" : 15552,
+            "byteOffset" : 15552
         },
         {
             "buffer" : 0,
-            "byteLength" : 192,
-            "byteOffset" : 576
+            "byteLength" : 10368,
+            "byteOffset" : 31104
         },
         {
             "buffer" : 0,
-            "byteLength" : 72,
-            "byteOffset" : 768
+            "byteLength" : 3924,
+            "byteOffset" : 41472
         }
     ],
     "samplers" : [
@@ -176,8 +171,8 @@
     ],
     "buffers" : [
         {
-            "byteLength" : 840,
-            "uri" : "mapa.bin"
+            "byteLength" : 45396,
+            "uri" : "snake_tail.bin"
         }
     ]
 }
