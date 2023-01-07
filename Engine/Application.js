@@ -21,7 +21,7 @@ export class Application {
         const dt = time - this._time;
         this._time = time;
 
-        this.update(time, dt);
+        this.update(dt);
     }
 
     _render() {

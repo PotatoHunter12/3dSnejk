@@ -12,11 +12,11 @@ class App extends Application {
 
         this.renderer = new Renderer(this.gl);
 
-        await this.loaderSnake.load('../Assets/3d models/snake/head/snake_head2.gltf');
+        await this.loaderSnake.load('../Assets/3d models/snake/head/snake_head.gltf');
         await this.loaderMap.load('../Assets/3d models/mapa/mapa.gltf');
         await this.loaderSnake.loadScene(this.loaderSnake.defaultScene);
 
-        this.snek = await this.loaderSnake.loadNode("Cube.002");
+        this.snek = await this.loaderSnake.loadNode("cube");
         this.scene = await this.loaderMap.loadScene(this.loaderMap.defaultScene);
 
         this.camera = await this.loaderSnake.loadNode('Camera');
@@ -25,12 +25,13 @@ class App extends Application {
         if (!this.scene || !this.camera) {
             throw new Error('Scene or Camera not present in glTF');
         }
-
+        
         if (!this.camera.camera) {
             throw new Error('Camera node does not contain a camera reference');
         }
+        
         this.renderer.prepareScene(this.scene);
-        this.controller = new FirstPersonController(this.snek, canvas);
+        this.controller = new FirstPersonController(this.snek,this.camera, canvas);
     }
     update(dt) {
         this.controller.update(dt);
