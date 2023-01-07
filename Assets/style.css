@@ -60,6 +60,10 @@ a.back:hover {
 
     animation: spin 2s ease-in-out infinite;
 }
+canvas {
+    background: url('3d models/mapa/vesolje.jpg');
+    background-size: cover;
+}
 
 @keyframes spin {
     0% { transform: rotate(0deg); }
