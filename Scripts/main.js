@@ -31,7 +31,7 @@ class App extends Application {
         }
         
         this.renderer.prepareScene(this.scene);
-        this.controller = new FirstPersonController(this.snek,this.camera, canvas);
+        this.controller = new FirstPersonController(this.snek, canvas);
     }
     update(dt) {
         this.controller.update(dt);

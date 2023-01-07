@@ -1,26 +1,21 @@
-
-import { vec3,mat4,quat } from '../lib/gl-matrix-module.js';
+import { vec3, quat } from '../lib/gl-matrix-module.js';
 
 export class FirstPersonController {
-    constructor(node, camera, domElement) {
+    constructor(node, domElement) {
         this.node = node;
         this.dom = domElement;
         this.keys = {};
 
-        this.rotating = false;
-
-        // Movement speed in units per second
-        this.speed = 1;
-
         // Current direction the controller is moving
         this.direction = vec3.create();
 
-        // Current orientation of the controller
+        // Current orientation of the snake
         this.forward = vec3.fromValues(0, 0, 1);
         this.up = vec3.fromValues(0, 1, 0);
         this.right = vec3.fromValues(1, 0, 0);
-        this.temp = vec3.fromValues(0,0,0);
-        this.yaw = 0;
+        
+        this.speed = 0;
+        this.rotating = false;
         
         this.initHandlers();
     }
@@ -31,7 +26,6 @@ export class FirstPersonController {
         const element = this.dom;
         const doc = element.ownerDocument;
 
-
         doc.addEventListener('keydown', this.keydownHandler);
         doc.addEventListener('keyup', this.keyupHandler);
 
@@ -39,45 +33,39 @@ export class FirstPersonController {
     }
 
     update(dt) {
-        // Update the direction the controller is moving
+        // Update the snake's direction
         this.direction = vec3.add(vec3.create(), this.direction, vec3.scale(vec3.create(), this.forward, dt * this.speed));
 
-        // Update the orientation of the controller
+        // Rotate the snake on player input
         if (this.keys['KeyW'] && !this.rotating) {
-            // Rotate the forward vector upwards around the right vector
-            this.temp = this.forward;
-            this.forward = this.up;
-            this.up = vec3.scale(quat.create(), this.temp,-1);
-            this.node.rotation = quat.mul(quat.create(), this.node.rotation, quat.fromEuler(quat.create(), -90, 0, 0));
-            this.rotating = true;
+            this.rotate(this.up,1);
         }
         if (this.keys['KeyS'] && !this.rotating) {
-            // Rotate the forward vector downwards around the right vector
-            this.temp = this.forward;
-            this.forward = vec3.scale(quat.create(), this.up,-1);
-            this.up = this.temp;
-            this.node.rotation = quat.mul(quat.create(), this.node.rotation, quat.fromEuler(quat.create(), 90, 0, 0));
-            this.rotating = true;
+            this.rotate(this.up,-1)
         }
         if (this.keys['KeyA'] && !this.rotating) {
-            // Rotate the forward vector to the left around the up vector
-            this.temp = this.forward;
-            this.forward = this.right;
-            this.right =  vec3.scale(quat.create(), this.temp,-1);
-            this.node.rotation = quat.mul(quat.create(), this.node.rotation, quat.fromEuler(quat.create(), 0, 90, 0));
-            this.rotating = true;
+            this.rotate(this.right,-1);
         }
         if (this.keys['KeyD'] && !this.rotating) {
-            // Rotate the forward vector to the right around the up vector
-            this.temp = this.forward;
-            this.forward = vec3.scale(quat.create(), this.right,-1);
-            this.right =  this.temp;
-            this.node.rotation = quat.mul(quat.create(), this.node.rotation, quat.fromEuler(quat.create(), 0, -90, 0));
-            this.rotating = true;
+            this.rotate(this.right,1);
         }
         
-        // Update the node's transformation matrix
+        // Update the snake's transformation matrix
         this.node.translation = vec3.add(vec3.create(), this.node.translation, vec3.scale(vec3.create(), this.direction, dt));
+    }
+    rotate(axis,k){
+        //Calculate the angle of rotation
+        const x = -k * 90 * (axis == this.up);
+        const y = -k * 90 * (axis == this.right)
+        
+        //Swap axis
+        this.temp = this.forward;
+        this.forward = vec3.scale(quat.create(), axis,k);
+        axis = vec3.scale(quat.create(), this.temp,-k);
+
+        //Rotate the snake
+        this.node.rotation = quat.mul(quat.create(), this.node.rotation, quat.fromEuler(quat.create(),x,y,0));
+        this.rotating = true;
     }
 
     keydownHandler(e) {
