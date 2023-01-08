@@ -40,7 +40,7 @@ export class FirstPersonController {
     }
 
     update(dt) {
-        this.delay = 750/this.speed;
+        this.delay = 1500/this.speed;
         this.dt = dt;
         this.rotationQ.push(this.head.rotation);
 

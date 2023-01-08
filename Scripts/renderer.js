@@ -209,6 +209,11 @@ export class Renderer {
         mat4.mul(mvpMatrix, mvpMatrix, node.localMatrix);
 
         if (node.mesh) {
+            gl.disable(gl.BLEND);
+            if (node.name === 'Head' || node.name === 'Body' || node.name === 'Tail') {
+                gl.enable(gl.BLEND);
+                gl.blendFuncSeparate(gl.SRC_COLOR, gl.DST_COLOR, gl.ONE, gl.ZERO);
+            }
             gl.uniformMatrix4fv(uniforms.uModelViewProjection, false, mvpMatrix);
             for (const primitive of node.mesh.primitives) {
                 this.renderPrimitive(primitive);

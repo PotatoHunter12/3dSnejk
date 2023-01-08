@@ -4,10 +4,17 @@ export class Scene {
 
     constructor(options = {}) {
         this.nodes = [...(options.nodes ?? [])];
+       
     }
 
     addNode(node) {
         this.nodes.push(node);
+    }
+    removeNode(node){
+        const i = this.nodes.indexOf(node);
+        if (i >= 0) {
+            this.nodes.splice(i,1);
+        }
     }
 
     traverse(before, after) {

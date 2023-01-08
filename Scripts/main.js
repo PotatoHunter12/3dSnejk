@@ -3,6 +3,7 @@ import { Application } from '../Engine/Application.js';
 import { GLTFLoader } from './GLTFLoader.js';
 import { Renderer } from './Renderer.js';
 import { FirstPersonController } from '../Engine/FirstPersonController.js';
+import { vec3, quat } from '../lib/gl-matrix-module.js';
 
 class App extends Application {
 
@@ -29,11 +30,20 @@ class App extends Application {
         await this.loaderMap.load('../Assets/3d models/planeti/planet_roza.gltf');
         this.planets.push(await this.loaderMap.loadNode("roza"));
 
+        await this.loaderMap.load('../Assets/3d models/asteroidi/asteorid.gltf');
+        this. asteroid = await this.loaderMap.loadNode("asteroid")
+        for (let i = 0; i < 100; i++) {
+            this.as = this.asteroid.clone();
+            this.as.translation = this.randomVec(350);
+            this.scene.addNode(this.as);
+            
+        }
+
         //Load the snake
         await this.loaderSnake.load('../Assets/3d models/snake/gltf-ji/snake_head.gltf');
-        this.snake = await this.loaderSnake.loadNode("Head");
+        this.head = await this.loaderSnake.loadNode("Head");
         this.tail = await this.loaderSnake.loadNode("Head");
-        //this.camera = await this.loaderSnake.loadNode('Camera');
+        this.camera = await this.loaderSnake.loadNode('Camera');
 
         await this.loaderSnake.load('../Assets/3d models/snake/gltf-ji/snek_body.gltf');
         this.body = await this.loaderSnake.loadNode("Body");
@@ -47,7 +57,7 @@ class App extends Application {
             this.planets.push(this.planets[3].clone());
             
         }
-        this.scene.addNode(this.snake);
+        this.scene.addNode(this.head);
         this.scene.addNode(this.tail);
         this.planets.forEach(planet => {
             planet.translation = this.randomVec(350);
@@ -65,10 +75,16 @@ class App extends Application {
         }
 
         this.renderer.prepareScene(this.scene);
-        this.controller = new FirstPersonController(this.snake,this.body,this.tail, canvas);
+        this.controller = new FirstPersonController(this.head,this.body,this.tail, canvas);
     }
     update(dt) {
         this.controller.update(dt);
+        this.planets.forEach(planet => {
+            if (this.collided(planet)) {
+              this.scene.removeNode(planet);
+              console.log("yeet",planet);
+            }
+        });
     }
     render() {
         this.renderer.render(this.scene, this.camera);
@@ -88,6 +104,11 @@ class App extends Application {
     rng(n){
         return Math.floor(Math.random()*n-n/2);
     }
+    collided(object) {
+        const d = vec3.distance(vec3.create(), this.head.translation, object.translation);
+        return d < object.scale[0]/2;
+      }
+      
 
 }
 
