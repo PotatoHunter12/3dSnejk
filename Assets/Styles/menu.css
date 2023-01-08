@@ -1,0 +1,172 @@
+body {
+    background-image: url("../Pictures/vesolje.jpg");
+}
+  
+#menu {
+    width:0px;
+    height:0px;
+    border-left: 300px solid transparent;
+    border-right:300px solid transparent;
+    border-top: 300px solid transparent;
+    border-radius: px;
+    position:relative;
+    margin:auto;
+    top:5px;
+    left:2px;
+  }
+
+  img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 100px;
+    margin-bottom: 50px;
+  }
+  
+  
+  #start {
+    position:relative;
+    bottom:300px;
+    right:300px;
+    width:600px;
+    background:#000000;
+    text-align: center;
+    vertical-align: middle;
+    font-size:30px;
+    background-size: 1px 300%;
+    transition:0.5s;
+    color:white;
+    font-family:shadows into light;
+    cursor:pointer;
+  }
+  
+  #start:hover {
+    background:#6545e2;
+    color:white;
+    transform:scale(1);
+  }
+  
+  #start p {
+    position:relative;
+    top:2px;
+    right:4px;
+  }
+
+  #start a {
+    color: white;
+    text-decoration: none;
+    position:relative;
+    top:0px;
+    right:9px;
+  }
+  
+  #how {
+    position:relative;
+    bottom:300px;
+    right:300px;
+    height:40px;
+    width:600px;
+    background:#000000;
+    text-align: center;
+    vertical-align: middle;
+    font-size:30px;
+    background-size: 1px 300%;
+    transition:0.5s;
+    color:white;
+    font-family:shadows into light;
+    cursor:pointer;
+  }
+
+  #how:hover {
+    background:#6545e2;
+    color:white;
+    transform:scale(1);
+  }
+
+  #how p {
+    position:relative;
+    top:0px;
+    right:9px;
+  }
+
+  #how a {
+    color: white;
+    text-decoration: none;
+    position:relative;
+    top:0px;
+    right:9px;
+  }
+
+  #exit {
+    position:relative;
+    bottom:300px;
+    right:300px;
+    height:40px;
+    width:600px;
+    background:#000000;
+    text-align: center;
+    vertical-align: middle;
+    font-size:30px;
+    background-size: 1px 300%;
+    transition:0.5s;
+    color:white;
+    font-family:shadows into light;
+    cursor:pointer;
+  }
+
+  #exit:hover {
+    background:#6545e2;
+    color:white;
+    transform:scale(1);
+  }
+
+  #exit p {
+    position:relative;
+    top:0px;
+    right:9px;
+  }
+
+  #exit a {
+    color: white;
+    text-decoration: none;
+    position:relative;
+    top:0px;
+    right:9px;
+  }
+
+  #instructions {
+    position:relative;
+    margin:auto;
+    /*bottom:300px;*/
+    /* left:450px;
+    right:450px;
+    height:40px;
+    width:600px; */
+  }
+
+  #instructions p {
+    position:static;
+    /*bottom:250px;
+    right:300px;
+    height:40px;
+    width:600px;*/
+    font-size:30px;
+    /*background-size: 1px 100%;*/
+    margin: auto;
+    background-color: black;
+    text-align: center;
+    color:white;
+    font-family:shadows into light;
+  }
+
+  #instructions img {
+    width:150px;
+    height:150px;
+  }
+
+  .return-button {
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+  

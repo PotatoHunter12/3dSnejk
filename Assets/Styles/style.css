@@ -61,7 +61,7 @@ a.back:hover {
     animation: spin 2s ease-in-out infinite;
 }
 canvas {
-    background: url('3d models/mapa/vesolje.jpg');
+    background: url('../3d models/mapa/vesolje.jpg');
     background-size: cover;
 }
 
