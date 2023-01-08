@@ -15,11 +15,9 @@
 
     <script language="javascript" type="text/javascript">
         function close_window() {
-            var test = "";
-            while(1) {
-                test = test += "a";
+            if (confirm("Do you want to leave the game?")) {
+                close();
             }
-            //[evil laugh] BOOM! All memory used up, and it is now CRASHED!
         }
     </script>
       
