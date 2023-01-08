@@ -45,7 +45,7 @@
         },
         {
             "mesh" : 0,
-            "name" : "Sphere"
+            "name" : "roza"
         }
     ],
     "materials" : [
@@ -87,7 +87,7 @@
         {
             "mimeType" : "image/png",
             "name" : "Material",
-            "uri" : "Material.png"
+            "uri" : "Material_roza.png"
         }
     ],
     "accessors" : [
@@ -157,7 +157,7 @@
     "buffers" : [
         {
             "byteLength" : 1111040,
-            "uri" : "planet_zelen.bin"
+            "uri" : "planet_roza.bin"
         }
     ]
 }
