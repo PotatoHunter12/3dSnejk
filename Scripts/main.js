@@ -12,10 +12,13 @@ class App extends Application {
         this.loaderSnake = new GLTFLoader();
         this.renderer = new Renderer(this.gl);
         this.planets = [];
+        this.asteorids = [];
+        this.trash = [];
+        this.pts = 0;
 
         this.scaleLimit = 50;
         this.mapLimit = 350;
-        this.numAsteorids = 10;
+        this.numAsteorids = 30;
         this.numPlanets = 10;
 
         //Load the map
@@ -40,16 +43,19 @@ class App extends Application {
         for (let i = 0; i < this.numAsteorids; i++) {
             this.as = this.asteorid.clone();
             this.as.translation = this.randomVec(this.mapLimit);
+            this.as.scale = [2,2,2];
             this.scene.addNode(this.as);
+            this.asteorids.push(this.as);
             
         }
 
         await this.loaderMap.load('../Assets/3d models/satelit/satelit.gltf');
         this.sat = await this.loaderMap.loadNode("satelit");
         for (let i = 0; i < 5; i++) {
-            this.st = this.sat.clone();
-            this.st.translation = this.randomVec(this.mapLimit);
-            this.scene.addNode(this.st);
+            let st = this.sat.clone();
+            st.translation = this.randomVec(this.mapLimit);
+            this.scene.addNode(st);
+            this.trash.push(st)
             
         }
 
@@ -94,7 +100,12 @@ class App extends Application {
     }
     update(dt) {
         this.controller.update(dt);
-
+        console.log(this.head.translation);
+        this.head.translation.forEach(x => {
+            if(190 < x < -190){
+                window.location = "../Web/game_over.html";
+            }
+        });
         //Eat planets that collide with the snakes head
         this.planets.forEach(planet => {
             if (this.collided(planet)) {
@@ -104,6 +115,7 @@ class App extends Application {
                     window.location = "../Web/game_over.html";
                 }
                 else{
+                    this.pts+=10;
                     this.scene.removeNode(planet);
                     const i = this.planets.indexOf(planet);
                     const rep = planet.clone();
@@ -140,6 +152,48 @@ class App extends Application {
                
             }
         });
+        this.asteorids.forEach(asteorid => {
+            if (this.collided(asteorid)) {
+                this.pts += 1;
+                this.scene.removeNode(asteorid);
+                const i = this.planets.indexOf(asteorid);
+                const rep = asteorid.clone();
+
+                if (i >= 0) {
+                    this.planets.splice(i, 1);
+                }
+                //Planets become smaller because the snake is bigger
+                this.planets.forEach(p => {
+                    p.scale = vec3.scale(vec3.create(),p.scale,0.8);
+                    //Replace planets that are too small
+                    if (p.scale[0] < 1){
+                        const rep2 = p.clone();
+                        rep2.translation = this.randomVec(this.mapLimit);
+                        rep2.scale = this.randomScale(this.scaleLimit);
+                        this.scene.addNode(rep2);
+                        const j = this.planets.indexOf(planet);
+                        if (j >= 0) {
+                            this.planets.splice(j, 1);
+                        }
+                        this.planets.push(rep2);
+                        console.log("too smol");
+                    }
+                });
+                
+                //replace the eaten asteroid
+                rep.translation = this.randomVec(this.mapLimit);
+                this.scene.addNode(rep);
+                this.planets.push(rep);
+
+                console.log("yeet",planet);
+            }
+        });
+        //End game if collided with a satelite
+        this.trash.forEach(satelit => {
+            if (this.collided(satelit)) {
+                window.location = "../Web/game_over.html";
+            }
+        });
     }
     render() {
         this.renderer.render(this.scene, this.camera);
@@ -157,7 +211,7 @@ class App extends Application {
         return [s,s,s];
     }
     collided(object) {
-        return this.distance(object.translation,this.head.translation) < object.scale[0] + 1;
+        return this.distance(object.translation,this.head.translation) < object.scale[0] + 2;
     }
     distance(a,b){
         const x = b[0] - a[0];
