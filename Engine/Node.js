@@ -149,5 +149,17 @@ export class Node {
             after(this);
         }
     }
+    clone(node) {
+        return new Node({
+            translation : this.translation,
+            rotation : this.rotation,
+            scale : this.scale,
+            mesh : this.mesh,
+            camera : this.camera,
+            extras : this.extras,
+            hidden : this.hidden,
+            children : this.children.map(child => child.clone()),
+        })
+    }
 
 }

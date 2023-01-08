@@ -1,15 +1,16 @@
 import { vec3, quat } from '../lib/gl-matrix-module.js';
 
 export class FirstPersonController {
-    constructor(node,tail, domElement) {
-        this.node = node;
+    constructor(head,body,tail, domElement) {
+        this.head = head;
+        this.body = body;
         this.tail = tail;
         this.dom = domElement;
         this.keys = {};
 
         //Log position of the snake for the tail to follow.
-        this.translationQ = [this.node.translation];
-        this.rotationQ = [this.node.rotation];
+        this.translationQ = [this.head.translation];
+        this.rotationQ = [this.head.rotation];
 
 
         // Current direction the controller is moving
@@ -20,7 +21,7 @@ export class FirstPersonController {
         this.up = vec3.fromValues(0, 1, 0);
         this.right = vec3.fromValues(1, 0, 0);
         
-        this.speed = 10;
+        this.speed = 5;
         this.rotating = false;
         
         this.initHandlers();
@@ -41,7 +42,7 @@ export class FirstPersonController {
     update(dt) {
         this.delay = 750/this.speed;
         this.dt = dt;
-        this.rotationQ.push(this.node.rotation);
+        this.rotationQ.push(this.head.rotation);
 
         // Update the snake's direction
         this.direction = vec3.scale(vec3.create(), this.forward, dt * 1000 * this.speed);
@@ -76,8 +77,8 @@ export class FirstPersonController {
         
         
         // Update the snake's transformation matrix
-        this.node.translation = vec3.add(vec3.create(), this.node.translation, vec3.scale(vec3.create(), this.direction, dt));
-        this.translationQ.push(this.node.translation);
+        this.head.translation = vec3.add(vec3.create(), this.head.translation, vec3.scale(vec3.create(), this.direction, dt));
+        this.translationQ.push(this.head.translation);
         if(this.translationQ.length > this.delay){
             this.tail.translation = this.translationQ[this.translationQ.length - this.delay];
             this.tail.rotation = this.rotationQ[this.rotationQ.length - this.delay];
@@ -94,7 +95,7 @@ export class FirstPersonController {
         let startTime = performance.now();
         let elapsedTime = 0;
         const duration = 600;  // Duration of rotation in milliseconds
-        const startRotation = quat.clone(this.node.rotation);
+        const startRotation = quat.clone(this.head.rotation);
         const endRotation = quat.mul(quat.create(), startRotation, quat.fromEuler(quat.create(), x, y, 0));
 
         // Rotate the snake until it reaches the end rotation
@@ -102,11 +103,11 @@ export class FirstPersonController {
             elapsedTime = performance.now() - startTime;
             let t = elapsedTime / duration;
             t = Math.min(1, t);
-            this.node.rotation = quat.slerp(quat.create(), startRotation, endRotation, t);
+            this.head.rotation = quat.slerp(quat.create(), startRotation, endRotation, t);
             this.tail.rotation = quat.slerp(quat.create(), endRotation, startRotation, t);
             await new Promise(resolve => requestAnimationFrame(resolve));
         }
-        this.node.rotation = endRotation;
+        this.head.rotation = endRotation;
 
         // Stop rotation
         this.rotating = false;

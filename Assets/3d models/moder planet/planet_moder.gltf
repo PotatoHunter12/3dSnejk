@@ -45,7 +45,12 @@
         },
         {
             "mesh" : 0,
-            "name" : "Sphere"
+            "name" : "Sphere",
+            "scale": [
+                10,
+                10,
+                10
+            ]
         }
     ],
     "materials" : [
