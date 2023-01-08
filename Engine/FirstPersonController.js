@@ -20,7 +20,7 @@ export class FirstPersonController {
         this.up = vec3.fromValues(0, 1, 0);
         this.right = vec3.fromValues(1, 0, 0);
         
-        this.speed = 5;
+        this.speed = 10;
         this.rotating = false;
         
         this.initHandlers();
@@ -39,7 +39,7 @@ export class FirstPersonController {
     }
 
     update(dt) {
-        this.delay = 190;
+        this.delay = 750/this.speed;
         this.dt = dt;
         this.rotationQ.push(this.node.rotation);
 
@@ -73,22 +73,13 @@ export class FirstPersonController {
             this.rotate(this.right,1);
         }
 
-        if (this.rotating) {
-            // Calculate the elapsed time since the rotation started
-            this.elapsedTime += dt;
         
-            // Update the snake head with the interpolated keyframe data for the current time
-            this.node.translation = this.animationMixer(this.elapsedTime).translation;
-            this.node.rotation = this.animationMixer(this.elapsedTime).rotation;
-        }
         
         // Update the snake's transformation matrix
         this.node.translation = vec3.add(vec3.create(), this.node.translation, vec3.scale(vec3.create(), this.direction, dt));
         this.translationQ.push(this.node.translation);
         if(this.translationQ.length > this.delay){
-            let t = vec3.scale(vec3.create(),this.forward,43);
-            t = vec3.add(vec3.create(),t,this.translationQ[this.translationQ.length - this.delay])
-            this.tail.translation = t;
+            this.tail.translation = this.translationQ[this.translationQ.length - this.delay];
             this.tail.rotation = this.rotationQ[this.rotationQ.length - this.delay];
             
         }
@@ -129,32 +120,4 @@ export class FirstPersonController {
         this.keys[e.code] = false;
         this.direction = vec3.create();
     }
-    animationMixer(time) {
-        // Find the keyframe before and after the current time
-        let keyframe1 = null;
-        let keyframe2 = null;
-        for (let i = 0; i < this.keyframes.length; i++) {
-          if (this.keyframes[i].time <= time) {
-            keyframe1 = this.keyframes[i];
-          } else {
-            keyframe2 = this.keyframes[i];
-            break;
-          }
-        }
-      
-        // If there is no keyframe after the current time, use the last keyframe
-        if (!keyframe2) {
-          keyframe2 = this.keyframes[this.keyframes.length - 1];
-        }
-      
-        // Calculate the interpolation factor based on the elapsed time
-        const t = (time - keyframe1.time) / (keyframe2.time - keyframe1.time);
-      
-        // Interpolate the position and rotation between the keyframes
-        const position = keyframe1.position.lerp(keyframe2.position, t);
-        const rotation = keyframe1.rotation.slerp(keyframe2.rotation, t);
-      
-        // Return the interpolated keyframe data
-        return { position, rotation };
-      }
 }

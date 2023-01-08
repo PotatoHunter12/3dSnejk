@@ -19,6 +19,7 @@ class App extends Application {
         await this.loaderSnake.load('../Assets/3d models/snake/gltf-ji/snake_head.gltf');
         await this.loaderSnake.loadScene(this.loaderSnake.defaultScene);
         this.snake = await this.loaderSnake.loadNode("Head");
+        this.tail = await this.loaderSnake.loadNode("Head");
         this.camera = await this.loaderMap.loadNode('Camera');
 
         await this.loaderSnake.load('../Assets/3d models/snake/gltf-ji/snek_body.gltf');
