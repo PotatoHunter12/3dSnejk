@@ -72,22 +72,32 @@ export class FirstPersonController {
             this.right = this.temp;
             this.rotate(this.right,1);
         }
+
+        if (this.rotating) {
+            // Calculate the elapsed time since the rotation started
+            this.elapsedTime += dt;
+        
+            // Update the snake head with the interpolated keyframe data for the current time
+            this.node.translation = this.animationMixer(this.elapsedTime).translation;
+            this.node.rotation = this.animationMixer(this.elapsedTime).rotation;
+        }
         
         // Update the snake's transformation matrix
         this.node.translation = vec3.add(vec3.create(), this.node.translation, vec3.scale(vec3.create(), this.direction, dt));
         this.translationQ.push(this.node.translation);
         if(this.translationQ.length > this.delay){
-            const t = this.translationQ[this.translationQ.length - this.delay];
-            //t[2] +=43;
-            this.tail.translation = this.node.translation;
+            let t = vec3.scale(vec3.create(),this.forward,43);
+            t = vec3.add(vec3.create(),t,this.translationQ[this.translationQ.length - this.delay])
             this.tail.translation = t;
+            this.tail.rotation = this.rotationQ[this.rotationQ.length - this.delay];
+            
         }
     }
     async rotate(axis, k) {
         // Calculate the angle of rotation
         const x = -k * 90 * (axis == this.up);
         const y = -k * 90 * (axis == this.right);
-    
+
         // Start rotation
         this.rotating = true;
         let startTime = performance.now();
@@ -102,16 +112,10 @@ export class FirstPersonController {
             let t = elapsedTime / duration;
             t = Math.min(1, t);
             this.node.rotation = quat.slerp(quat.create(), startRotation, endRotation, t);
+            this.tail.rotation = quat.slerp(quat.create(), endRotation, startRotation, t);
             await new Promise(resolve => requestAnimationFrame(resolve));
         }
         this.node.rotation = endRotation;
-        if(this.rotationQ.length > this.delay){
-            const t = this.translationQ[this.translationQ.length - this.delay];
-            //t[2] +=43;
-            this.tail.translation = this.node.translation;
-            this.tail.rotation = this.rotationQ[this.rotationQ.length - this.delay];
-            this.tail.translation = t;
-        }
 
         // Stop rotation
         this.rotating = false;
@@ -125,4 +129,32 @@ export class FirstPersonController {
         this.keys[e.code] = false;
         this.direction = vec3.create();
     }
+    animationMixer(time) {
+        // Find the keyframe before and after the current time
+        let keyframe1 = null;
+        let keyframe2 = null;
+        for (let i = 0; i < this.keyframes.length; i++) {
+          if (this.keyframes[i].time <= time) {
+            keyframe1 = this.keyframes[i];
+          } else {
+            keyframe2 = this.keyframes[i];
+            break;
+          }
+        }
+      
+        // If there is no keyframe after the current time, use the last keyframe
+        if (!keyframe2) {
+          keyframe2 = this.keyframes[this.keyframes.length - 1];
+        }
+      
+        // Calculate the interpolation factor based on the elapsed time
+        const t = (time - keyframe1.time) / (keyframe2.time - keyframe1.time);
+      
+        // Interpolate the position and rotation between the keyframes
+        const position = keyframe1.position.lerp(keyframe2.position, t);
+        const rotation = keyframe1.rotation.slerp(keyframe2.rotation, t);
+      
+        // Return the interpolated keyframe data
+        return { position, rotation };
+      }
 }
