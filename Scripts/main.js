@@ -103,6 +103,8 @@ class App extends Application {
         console.log(this.head.translation);
         this.head.translation.forEach(x => {
             if(190 < x < -190){
+                localStorage.setItem("final_score", this.pts);
+                alert(this.pts)
                 window.location = "../Web/game_over.html";
             }
         });
@@ -112,6 +114,8 @@ class App extends Application {
                 console.log(planet.scale[0]);
                 //If the planet is too big, end game
                 if(planet.scale[0] > 10){
+                    localStorage.setItem("final_score", this.pts);
+                    alert(this.pts)
                     window.location = "../Web/game_over.html";
                 }
                 else{
@@ -191,6 +195,8 @@ class App extends Application {
         //End game if collided with a satelite
         this.trash.forEach(satelit => {
             if (this.collided(satelit)) {
+                localStorage.setItem("final_score", this.pts);
+                alert(this.pts)
                 window.location = "../Web/game_over.html";
             }
         });
