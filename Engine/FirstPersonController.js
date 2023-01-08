@@ -21,7 +21,7 @@ export class FirstPersonController {
         this.up = vec3.fromValues(0, 1, 0);
         this.right = vec3.fromValues(1, 0, 0);
         
-        this.speed = 5;
+        this.speed = 10;
         this.rotating = false;
         
         this.initHandlers();
@@ -40,8 +40,8 @@ export class FirstPersonController {
     }
 
     update(dt) {
-        this.delay = 1500/this.speed;
-        this.dt = dt;
+
+        this.delay = 1500 / this.speed;
         this.rotationQ.push(this.head.rotation);
 
         // Update the snake's direction
