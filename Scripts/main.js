@@ -17,36 +17,41 @@ class App extends Application {
         this.scene = await this.loaderMap.loadScene(this.loaderMap.defaultScene);
         this.camera = await this.loaderMap.loadNode('Camera');
 
-        await this.loaderMap.load('../Assets/3d models/moder planet/planet_moder.gltf');
-        await this.loaderMap.loadScene(this.loaderMap.defaultScene);
-        this.planets.push(await this.loaderMap.loadNode("Sphere"));
+        await this.loaderMap.load('../Assets/3d models/planeti/planet_moder.gltf');
+        this.planets.push(await this.loaderMap.loadNode("moder"));
+
+        await this.loaderMap.load('../Assets/3d models/planeti/planet_vijolcen.gltf');
+        this.planets.push(await this.loaderMap.loadNode("vijolcen"));
+
+        await this.loaderMap.load('../Assets/3d models/planeti/planet_zelen.gltf');
+        this.planets.push(await this.loaderMap.loadNode("zelen"));
         
-        await this.loaderMap.load('../Assets/3d models/satelit/satelit.gltf');
-        await this.loaderMap.loadScene(this.loaderMap.defaultScene);
+        await this.loaderMap.load('../Assets/3d models/planeti/planet_roza.gltf');
+        this.planets.push(await this.loaderMap.loadNode("roza"));
 
         //Load the snake
         await this.loaderSnake.load('../Assets/3d models/snake/gltf-ji/snake_head.gltf');
-        await this.loaderSnake.loadScene(this.loaderSnake.defaultScene);
         this.snake = await this.loaderSnake.loadNode("Head");
         this.tail = await this.loaderSnake.loadNode("Head");
         //this.camera = await this.loaderSnake.loadNode('Camera');
 
         await this.loaderSnake.load('../Assets/3d models/snake/gltf-ji/snek_body.gltf');
-        await this.loaderSnake.loadScene(this.loaderSnake.defaultScene);
         this.body = await this.loaderSnake.loadNode("Body");
 
         await this.loaderSnake.load('../Assets/3d models/snake/gltf-ji/snake_tail.gltf');
-        await this.loaderSnake.loadScene(this.loaderSnake.defaultScene);
         this.tail = await this.loaderSnake.loadNode("Tail");
-        for (let i = 0; i < 20; i++) {
+        for (let i = 0; i < 10; i++) {
             this.planets.push(this.planets[0].clone());
+            this.planets.push(this.planets[1].clone());
+            this.planets.push(this.planets[2].clone());
+            this.planets.push(this.planets[3].clone());
             
         }
         this.scene.addNode(this.snake);
         this.scene.addNode(this.tail);
         this.planets.forEach(planet => {
-            planet.translation = this.randomVec(300);
-            planet.scale = this.randomScale(50);
+            planet.translation = this.randomVec(350);
+            planet.scale = this.randomScale(35);
             this.scene.addNode(planet);
         });
 
