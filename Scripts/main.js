@@ -100,9 +100,8 @@ class App extends Application {
     }
     update(dt) {
         this.controller.update(dt);
-        console.log(this.head.translation);
         this.head.translation.forEach(x => {
-            if(190 < x < -190){
+            if(x > 200 || x < -200){
                 localStorage.setItem("final_score", this.pts);
                 alert(this.pts)
                 window.location = "../Web/game_over.html";
@@ -111,7 +110,6 @@ class App extends Application {
         //Eat planets that collide with the snakes head
         this.planets.forEach(planet => {
             if (this.collided(planet)) {
-                console.log(planet.scale[0]);
                 //If the planet is too big, end game
                 if(planet.scale[0] > 10){
                     localStorage.setItem("final_score", this.pts);
@@ -175,12 +173,11 @@ class App extends Application {
                         rep2.translation = this.randomVec(this.mapLimit);
                         rep2.scale = this.randomScale(this.scaleLimit);
                         this.scene.addNode(rep2);
-                        const j = this.planets.indexOf(planet);
+                        const j = this.planets.indexOf(asteorid);
                         if (j >= 0) {
                             this.planets.splice(j, 1);
                         }
                         this.planets.push(rep2);
-                        console.log("too smol");
                     }
                 });
                 
@@ -189,7 +186,6 @@ class App extends Application {
                 this.scene.addNode(rep);
                 this.planets.push(rep);
 
-                console.log("yeet",planet);
             }
         });
         //End game if collided with a satelite
@@ -217,7 +213,7 @@ class App extends Application {
         return [s,s,s];
     }
     collided(object) {
-        return this.distance(object.translation,this.head.translation) < object.scale[0] + 2;
+        return this.distance(object.translation,this.head.translation) < object.scale[0] + 1;
     }
     distance(a,b){
         const x = b[0] - a[0];
@@ -226,8 +222,6 @@ class App extends Application {
 
         return Math.sqrt(x*x+y*y+z*z);
     }
-      
-
 }
 
 const canvas = document.querySelector('canvas');
